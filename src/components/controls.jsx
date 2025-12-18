@@ -1,6 +1,6 @@
 const Controls = ({ onReset }) => {
   const handleResetClick = (e) => {
-    e.stopPropagation(); // 🔥 KEY FIX
+    e.stopPropagation(); 
     onReset();
   };
 

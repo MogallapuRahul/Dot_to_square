@@ -7,7 +7,7 @@
 
   border: 2px solid black;
   cursor: default;
-  touch-action: manipulation;
+  touch-action: none;
 }
 .board-wrapper { position: relative; }
 

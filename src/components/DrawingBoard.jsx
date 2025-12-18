@@ -5,25 +5,18 @@ const DrawingBoard = ({ onFirstClick, resetRef }) => {
   const containerRef = useRef(null);
   const popupTimeoutRef = useRef(null);
 
-  const [currentSquare, setCurrentSquare] = useState([]);
+  
+  const pointsRef = useRef([]);
   const [showPopup, setShowPopup] = useState(false);
 
-  /* ===============================
-     RESPONSIVE CANVAS (WIDTH + HEIGHT)
-  =============================== */
+  
   useEffect(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
 
     const resizeCanvas = () => {
       const width = container.offsetWidth;
-
-      // Responsive height logic
-      // 60% of viewport height OR proportional to width
-      const height = Math.min(
-        window.innerHeight * 0.6,
-        width * 0.65
-      );
+      const height = Math.min(window.innerHeight * 0.6, width * 0.65);
 
       canvas.width = width;
       canvas.height = height;
@@ -31,17 +24,13 @@ const DrawingBoard = ({ onFirstClick, resetRef }) => {
 
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
-
     return () => window.removeEventListener("resize", resizeCanvas);
   }, []);
 
-  /* ===============================
-     POPUP: CLICK OUTSIDE BOX
-     (EXCEPT RESET)
-  =============================== */
+  
   useEffect(() => {
     const handleDocumentClick = (e) => {
-      const clickedOutsideBoard =
+      const outsideBoard =
         containerRef.current &&
         !containerRef.current.contains(e.target);
 
@@ -49,7 +38,7 @@ const DrawingBoard = ({ onFirstClick, resetRef }) => {
         resetRef?.current &&
         resetRef.current.contains(e.target);
 
-      if (clickedOutsideBoard && !clickedReset) {
+      if (outsideBoard && !clickedReset) {
         triggerPopup();
       }
     };
@@ -62,32 +51,22 @@ const DrawingBoard = ({ onFirstClick, resetRef }) => {
   const triggerPopup = () => {
     setShowPopup(true);
     clearTimeout(popupTimeoutRef.current);
-
-    popupTimeoutRef.current = setTimeout(() => {
-      setShowPopup(false);
-    }, 2000);
+    popupTimeoutRef.current = setTimeout(
+      () => setShowPopup(false),
+      2000
+    );
   };
 
   const getCoordinates = (event) => {
     const rect = canvasRef.current.getBoundingClientRect();
-
-    if (event.touches) {
-      return {
-        x: event.touches[0].clientX - rect.left,
-        y: event.touches[0].clientY - rect.top
-      };
-    }
-
     return {
       x: event.clientX - rect.left,
       y: event.clientY - rect.top
     };
   };
 
-  /* ===============================
-     DRAWING LOGIC
-  =============================== */
-  const handleInteraction = (event) => {
+  
+  const handlePointerDown = (event) => {
     event.stopPropagation();
 
     onFirstClick && onFirstClick();
@@ -96,30 +75,31 @@ const DrawingBoard = ({ onFirstClick, resetRef }) => {
     const ctx = canvas.getContext("2d");
     const { x, y } = getCoordinates(event);
 
-    // draw dot
+   
     ctx.beginPath();
     ctx.arc(x, y, 5, 0, Math.PI * 2);
     ctx.fill();
 
-    const newSquare = [...currentSquare, { x, y }];
+    const points = pointsRef.current;
+    points.push({ x, y });
 
-    if (newSquare.length > 1) {
-      const prev = newSquare[newSquare.length - 2];
+   
+    if (points.length > 1) {
+      const prev = points[points.length - 2];
       ctx.beginPath();
       ctx.moveTo(prev.x, prev.y);
       ctx.lineTo(x, y);
       ctx.stroke();
     }
 
-    if (newSquare.length === 4) {
-      const first = newSquare[0];
+    
+    if (points.length === 4) {
+      const first = points[0];
       ctx.beginPath();
       ctx.moveTo(x, y);
       ctx.lineTo(first.x, first.y);
       ctx.stroke();
-      setCurrentSquare([]);
-    } else {
-      setCurrentSquare(newSquare);
+      pointsRef.current = [];
     }
   };
 
@@ -128,8 +108,7 @@ const DrawingBoard = ({ onFirstClick, resetRef }) => {
       <canvas
         ref={canvasRef}
         className="drawing-board"
-        onClick={handleInteraction}
-        onTouchStart={handleInteraction}
+        onPointerDown={handlePointerDown}
       />
 
       {showPopup && (

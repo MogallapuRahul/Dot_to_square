@@ -1,7 +1,7 @@
 Project Overview
 
 This is a simple interactive drawing application built using React and HTML Canvas.
-The application allows users to place dots inside a drawing box. Each dot connects to the previous one with a line, and every four dots form a closed square.
+The application allows users to place dots inside a drawing box. Each dot connects to the previous one with a line and every four dots form a closed square.
 
 The app also includes:
 
@@ -9,128 +9,164 @@ A Reset feature to clear the drawing
 
 A popup warning when users click outside the drawing area
 
-Mobile and touch support, making it usable on phones and tablets
 
-The project was developed with clarity, usability, and clean architecture in mind.
-
-⚙️ Setup and Installation Instructions
-
+Setup and Installation Instructions
 Follow these steps to run the project locally:
 
-1️⃣ Clone the repository
-git clone <your-repository-url>
+Check Node.js and npm Installation
 
-2️⃣ Navigate to the project folder
-cd <project-folder-name>
+ React requires Node.js and npm to be installed.
+ Check if they are already installed by running:
+    node -v
+    npm -v
+ Install Node.js and npm (If Not Installed)
+  npm install
+ Create a New React Application
+   npx create-react-app meeraq-assignment
+ Navigate to the Project Directory
+  cd meeraq-assignment
+Start the Development Server
+  npm start
+Once the server starts successfully, open your browser and go to:
+ http://localhost:3000
+To stop the running development server, press:
+ ctrl+c
+ 
 
-3️⃣ Install dependencies
-npm install
-
-4️⃣ Start the development server
-npm start
-
-5️⃣ Open in browser
-
-The application will be available at:
-
-http://localhost:3000
-
-🏗️ Application Architecture
+Application Architecture
 
 The application follows a simple and clean component-based architecture.
 
-📁 File Structure
+File Structure
+
 src/
-│
-├── components/
-│   ├── DrawingBoard.jsx   // Canvas drawing logic
-│   └── Controls.jsx       // Reset button
-│
-├── styles/
-│   └── DrawingBoard.css   // Styling for canvas and popup
-│
-├── App.jsx                // Main app logic
-├── index.js               // Entry point
-└── README.md
+components/
+DrawingBoard.jsx  
+ Controls.jsx  
+ styles/
+DrawingBoard.css  
+ App.jsx  
+ index.js  
+ README.md
+ 
 
-🧠 Component Responsibilities
-🔹 App.jsx
+ components/
 
-Acts as the main controller
+This folder contains all the reusable UI components of the application.
 
-Manages:
+ DrawingBoard.jsx
 
-Reset logic using key re-mounting
+This is the core component of the application.
 
-Visibility of the Reset button
+Responsible for rendering the HTML canvas
+Handles all drawing logic:
+Placing dots,
+Connecting dots with lines,
+Closing a square after every four dots,
+Detects clicks outside the drawing area and shows a popup message,
+Keeps drawing logic independent from the reset logic,
+In short, this file controls how the user interacts with the drawing area.
 
-Passes callbacks to child components
+ Controls.jsx
 
-🔹 DrawingBoard.jsx
+This component handles the Reset button.
+Displays the Reset button only when needed
+Calls the reset handler passed from App.jsx
+Stops event propagation to ensure clicking Reset does not trigger the popup
+This separation keeps the UI clean and avoids mixing drawing logic with control logic.
 
-Handles all canvas drawing logic
+ styles/
 
-Responsibilities:
+This folder contains all styling related to the drawing area.
 
-Drawing dots and connecting lines
+ DrawingBoard.css
 
-Closing a square after 4 points
+This file controls the visual appearance of the application.
+Styles the drawing box (border, size, cursor),
+Positions the popup message correctly inside the drawing area,
+Ensures the application is touch-friendly and responsive on mobile devices,
+All layout-related decisions are kept here so that styling and logic remain separate.
 
-Showing popup when clicking outside the drawing box
+ App.jsx
 
-Supporting mouse and touch interactions
+This is the main controller component of the application.
+Acts as the parent component
+Manages global state such as:
+When to show the Reset button
+When to reset the drawing board
+Uses a React key to re-mount the DrawingBoard component, which guarantees a clean canvas reset
+Passes necessary callbacks to child components
+This file connects all parts of the app together without containing drawing logic itself.
 
-Uses React hooks:
+ index.js
 
-useRef for canvas access
+This is the entry point of the React application.
+Attaches the React app to the HTML DOM
+Renders the App component inside the root element
+This file is usually minimal and rarely changes.
 
-useState for tracking points and popup state
+ README.md
 
-useEffect for canvas setup and event listeners
+  This README is written to help any new developer or reviewer understand the application without needing prior context.
+  It acts as a starting guide for anyone who wants to run, modify, or review the project.
+  It explains the project structure and responsibilities of each file, making navigation easier.
+  It serves as a reference document for future maintenance or enhancements.
 
-🔹 Controls.jsx
 
-Contains the Reset button
+    Additional Features Implemented
 
-Uses stopPropagation() to prevent popup from appearing when Reset is clicked
+A popup message is displayed when the user clicks or taps outside the drawing area, helping guide correct interaction.
+The popup message does not appear when clicking the Reset button, ensuring a smooth user experience.
+A Reset option is provided to clear the drawing and start fresh.
+The Reset button appears only after the first dot is placed, keeping the interface clean and intuitive.
+The application is fully responsive, adapting to different screen sizes.
+Multiple squares can be drawn continuously without refreshing the page.
 
-✨ Additional Features & Enhancements
-✅ Popup Validation
 
-A popup appears when the user clicks outside the drawing area
+Create a Repository on GitHub
 
-Popup does not appear when clicking the Reset button
+Go to https://github.com
+Click New Repository
+Repository name
+Choose Public or Private
+Click Create Repository
+You will get a repository URL like:
+https://github.com/username/repository-name.git
 
-Popup automatically disappears after 2 seconds
+ Run Project Locally
+  Before pushing code, make sure the project runs successfully on your system.
+  npm start
 
-✅ Reset Functionality
+ Initialize Git in Local Project
+  Open the project folder in VS Code and open terminal.
+   git init
+   This converts the project into a Git repository.
+   
+  Check Project Status
+   git status
+   Shows:
+   Untracked files
+   Modified files
+   Deleted files
 
-Reset clears the canvas completely
+ Add all project files:
+    git add .
 
-Implemented using component re-mounting (key prop)
+Commit the Code
+ git commit -m "Initial commit"
 
-Ensures a clean reset without manual canvas clearing
+Connect Local Repo to GitHub
+Add GitHub repository as remote:
 
-✅ Mobile Responsiveness
+git remote add origin https://github.com/username/repository-name.git
 
-Canvas width adapts to screen size
 
-Touch support using onTouchStart
 
-Mobile-friendly CSS using touch-action: manipulation
+8️⃣ Push Code to GitHub
 
-Works on:
+Rename branch and push:
 
-Mobile phones
+git branch -M main
+git push -u origin main
 
-Tablets / iPad
-
-Desktop browsers
-
-✅ Clean UX
-
-Cursor changes for precision
-
-Clear drawing boundaries
-
-Reset button appears only after first interaction
+Code will now appear on GitHub

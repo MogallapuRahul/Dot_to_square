@@ -6,14 +6,14 @@ import "./styles/DrawingBoard.css";
 function App() {
   const [showReset, setShowReset] = useState(false);
   const [resetKey, setResetKey] = useState(0);
-  const resetRef = useRef(null); // ✅ NEW
+  const resetRef = useRef(null); 
 
   const handleFirstClick = () => {
     setShowReset(true);
   };
 
   const handleReset = () => {
-    setResetKey((prev) => prev + 1); // re-mount canvas
+    setResetKey((prev) => prev + 1); 
     setShowReset(false);
   };
 
@@ -24,11 +24,11 @@ function App() {
       <DrawingBoard
         key={resetKey}
         onFirstClick={handleFirstClick}
-        resetRef={resetRef}   // ✅ PASS REF
+        resetRef={resetRef}  
       />
 
       {showReset && (
-        <div ref={resetRef}>  {/* ✅ WRAP RESET */}
+        <div ref={resetRef}>  {}
           <Controls onReset={handleReset} />
         </div>
       )}
