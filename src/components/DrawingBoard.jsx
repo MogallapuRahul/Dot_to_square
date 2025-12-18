@@ -8,12 +8,31 @@ const DrawingBoard = ({ onFirstClick, resetRef }) => {
   const [currentSquare, setCurrentSquare] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
 
+  /* ===============================
+     RESPONSIVE CANVAS (WIDTH + HEIGHT)
+  =============================== */
   useEffect(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
 
-    canvas.width = container.offsetWidth;
-    canvas.height = 400;
+    const resizeCanvas = () => {
+      const width = container.offsetWidth;
+
+      // Responsive height logic
+      // 60% of viewport height OR proportional to width
+      const height = Math.min(
+        window.innerHeight * 0.6,
+        width * 0.65
+      );
+
+      canvas.width = width;
+      canvas.height = height;
+    };
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    return () => window.removeEventListener("resize", resizeCanvas);
   }, []);
 
   /* ===============================
@@ -69,7 +88,7 @@ const DrawingBoard = ({ onFirstClick, resetRef }) => {
      DRAWING LOGIC
   =============================== */
   const handleInteraction = (event) => {
-    event.stopPropagation(); // 🚫 prevent popup
+    event.stopPropagation();
 
     onFirstClick && onFirstClick();
 
@@ -105,10 +124,7 @@ const DrawingBoard = ({ onFirstClick, resetRef }) => {
   };
 
   return (
-    <div
-      ref={containerRef}
-      className="board-wrapper"
-    >
+    <div ref={containerRef} className="board-wrapper">
       <canvas
         ref={canvasRef}
         className="drawing-board"
