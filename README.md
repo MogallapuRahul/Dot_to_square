@@ -1,70 +1,168 @@
-# Getting Started with Create React App
+This is a simple interactive drawing application built using React and HTML Canvas.
+The application allows users to place dots inside a drawing box. Each dot connects to the previous one with a line, and every four dots form a closed square.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The app also includes:
 
-## Available Scripts
+A Reset feature to clear the drawing
 
-In the project directory, you can run:
+A popup warning when users click outside the drawing area
 
-### `npm start`
+Mobile and touch support, making it usable on phones and tablets
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The project was developed with clarity, usability, and clean architecture in mind.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+⚙️ Setup and Installation Instructions
 
-### `npm test`
+Follow these steps to run the project locally:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1️⃣ Clone the repository
+git clone <your-repository-url>
 
-### `npm run build`
+2️⃣ Navigate to the project folder
+cd <project-folder-name>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3️⃣ Install dependencies
+npm install
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4️⃣ Start the development server
+npm start
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5️⃣ Open in browser
 
-### `npm run eject`
+The application will be available at:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+http://localhost:3000
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+🏗️ Application Architecture
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The application follows a simple and clean component-based architecture.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+📁 File Structure
+src/
+│
+├── components/
+│   ├── DrawingBoard.jsx   // Canvas drawing logic
+│   └── Controls.jsx       // Reset button
+│
+├── styles/
+│   └── DrawingBoard.css   // Styling for canvas and popup
+│
+├── App.jsx                // Main app logic
+├── index.js               // Entry point
+└── README.md
 
-## Learn More
+🧠 Component Responsibilities
+🔹 App.jsx
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Acts as the main controller
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Manages:
 
-### Code Splitting
+Reset logic using key re-mounting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Visibility of the Reset button
 
-### Analyzing the Bundle Size
+Passes callbacks to child components
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+🔹 DrawingBoard.jsx
 
-### Making a Progressive Web App
+Handles all canvas drawing logic
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Responsibilities:
 
-### Advanced Configuration
+Drawing dots and connecting lines
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Closing a square after 4 points
 
-### Deployment
+Showing popup when clicking outside the drawing box
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Supporting mouse and touch interactions
 
-### `npm run build` fails to minify
+Uses React hooks:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+useRef for canvas access
+
+useState for tracking points and popup state
+
+useEffect for canvas setup and event listeners
+
+🔹 Controls.jsx
+
+Contains the Reset button
+
+Uses stopPropagation() to prevent popup from appearing when Reset is clicked
+
+✨ Additional Features & Enhancements
+✅ Popup Validation
+
+A popup appears when the user clicks outside the drawing area
+
+Popup does not appear when clicking the Reset button
+
+Popup automatically disappears after 2 seconds
+
+✅ Reset Functionality
+
+Reset clears the canvas completely
+
+Implemented using component re-mounting (key prop)
+
+Ensures a clean reset without manual canvas clearing
+
+✅ Mobile Responsiveness
+
+Canvas width adapts to screen size
+
+Touch support using onTouchStart
+
+Mobile-friendly CSS using touch-action: manipulation
+
+Works on:
+
+Mobile phones
+
+Tablets / iPad
+
+Desktop browsers
+
+✅ Clean UX
+
+Cursor changes for precision
+
+Clear drawing boundaries
+
+Reset button appears only after first interaction
+
+🧪 Edge Cases Handled
+
+Prevents popup on valid interactions
+
+Prevents popup on Reset click
+
+Allows multiple squares to be drawn independently
+
+Handles both mouse and touch input smoothly
+
+🎯 Why This Approach?
+
+Canvas reset via re-mounting is more reliable than manual clearing
+
+Document-level click detection ensures accurate popup behavior
+
+Separation of concerns keeps logic readable and maintainable
+
+Follows React best practices suitable for real-world applications
+
+📌 Final Notes
+
+This project demonstrates:
+
+Strong understanding of React hooks
+
+Correct usage of HTML Canvas
+
+Clean event handling
+
+Mobile responsiveness
+
+User-friendly validation and feedback
