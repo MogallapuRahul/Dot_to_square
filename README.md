@@ -162,7 +162,7 @@ git remote add origin https://github.com/username/repository-name.git
 
 
 
-8️⃣ Push Code to GitHub
+ Push Code to GitHub
 
 Rename branch and push:
 
